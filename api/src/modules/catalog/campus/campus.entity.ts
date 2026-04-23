@@ -26,7 +26,7 @@ export class Campus {
   address?: string;
 
   @Column({ type: 'enum', enum: Status, default: Status.ACTIVE })
-  active!: Status;
+  status!: Status;
 
   @OneToMany(() => Service, (service) => service.campus)
   services?: Service[];
