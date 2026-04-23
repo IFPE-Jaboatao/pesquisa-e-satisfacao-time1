@@ -9,6 +9,7 @@ import { ProfilesModule } from './modules/profiles/profiles.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { CampusModule } from './modules/catalog/campus/campus.module';
 import { AuditModule } from './modules/audit/audit.module';
+import { SectorModule } from './modules/catalog/sector/sector.module';
 
 @Module({
   imports: [
@@ -31,8 +32,9 @@ import { AuditModule } from './modules/audit/audit.module';
     }),
 
     AuthModule,
-    CampusModule,
     AuditModule,
+    CampusModule,
+    SectorModule,
     UsersModule,
     ProfilesModule,
     SeedModule,
