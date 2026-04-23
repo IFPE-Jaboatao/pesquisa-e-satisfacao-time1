@@ -7,6 +7,7 @@ import { UsersModule } from './modules/users/users.module';
 import { SeedModule } from './database/seeds/seed.module';
 import { ProfilesModule } from './modules/profiles/profiles.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { CampusModule } from './modules/catalog/campus/campus.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { AuthModule } from './modules/auth/auth.module';
     }),
 
     AuthModule,
+    CampusModule,
     UsersModule,
     ProfilesModule,
     SeedModule,
