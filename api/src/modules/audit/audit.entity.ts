@@ -5,35 +5,35 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
-@Entity('audits')
+export enum AuditAction {
+  INSERT = 'INSERT',
+  UPDATE = 'UPDATE',
+  DELETE = 'DELETE',
+}
+
+@Entity('audit_logs')
 export class Audit {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
-  @Column()
-  user_id!: string;
+  @Column({ nullable: true })
+  user_id?: string;
 
-  @Column()
-  action!: string;
+  @Column({ type: 'enum', enum: AuditAction })
+  action!: AuditAction;
 
   @Column()
   entity!: string;
 
-  @Column()
+  @Column({ nullable: true })
   entity_id!: string;
 
-  @Column({ type: 'json', nullable: true })
-  old_values?: any;
+  @Column({ type: 'jsonb', nullable: true })
+  old_values?: Record<string, unknown>;
 
-  @Column({ type: 'json', nullable: true })
-  new_values: any;
-
-  @Column()
-  ip?: string;
-
-  @Column()
-  user_agent?: string;
+  @Column({ type: 'jsonb', nullable: true })
+  new_values?: Record<string, unknown>;
 
   @CreateDateColumn()
-  created_at?: Date;
+  created_at!: Date;
 }
