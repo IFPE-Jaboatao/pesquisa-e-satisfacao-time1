@@ -26,7 +26,7 @@ export class Sector {
   description?: string;
 
   @Column({ type: 'enum', enum: Status, default: Status.ACTIVE })
-  active!: Status;
+  status!: Status;
 
   @CreateDateColumn()
   created_at!: Date;
