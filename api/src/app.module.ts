@@ -6,6 +6,7 @@ import typeorm from './database/typeorm';
 import { UsersModule } from './modules/users/users.module';
 import { SeedModule } from './database/seeds/seed.module';
 import { ProfilesModule } from './modules/profiles/profiles.module';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { ProfilesModule } from './modules/profiles/profiles.module';
       }),
     }),
 
+    AuthModule,
     UsersModule,
     ProfilesModule,
     SeedModule,
