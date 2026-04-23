@@ -3,6 +3,10 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import typeorm from './database/typeorm';
+import { UsersModule } from './modules/users/users.module';
+import { SeedModule } from './database/seeds/seed.module';
+import { ProfilesModule } from './modules/profiles/profiles.module';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -23,6 +27,11 @@ import typeorm from './database/typeorm';
         uri: config.get<string>('MONGO_URI'),
       }),
     }),
+
+    AuthModule,
+    UsersModule,
+    ProfilesModule,
+    SeedModule,
   ],
 })
 export class AppModule {}
