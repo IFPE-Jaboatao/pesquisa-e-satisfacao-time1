@@ -9,7 +9,6 @@ import { ProfilesModule } from './modules/profiles/profiles.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { CampusModule } from './modules/catalog/campus/campus.module';
 import { AuditModule } from './modules/audit/audit.module';
-import { SectorModule } from './modules/catalog/sector/sector.module';
 import { CoursesModule } from './modules/catalog/courses/courses.module';
 
 @Module({
@@ -36,7 +35,6 @@ import { CoursesModule } from './modules/catalog/courses/courses.module';
     AuditModule,
     CampusModule,
     CoursesModule,
-    SectorModule,
     UsersModule,
     ProfilesModule,
     SeedModule,

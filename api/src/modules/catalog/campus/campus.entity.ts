@@ -8,7 +8,6 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { Course } from '../courses/course.entity';
-import { Sector } from '../sector/sector.entity';
 import { Service } from '../services/service.entity';
 
 @Entity('campuses')
@@ -30,9 +29,6 @@ export class Campus {
 
   @OneToMany(() => Service, (service) => service.campus)
   services?: Service[];
-
-  @OneToMany(() => Sector, (sector) => sector.campus)
-  sectors?: Sector[];
 
   @OneToMany(() => Course, (course) => course.campus)
   courses?: Course[];
