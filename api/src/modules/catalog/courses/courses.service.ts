@@ -73,7 +73,7 @@ export class CoursesService {
   async update(id: string, data: UpdateCourseDto): Promise<CourseResponseDto> {
     const course = await this.courseRepository.findOne({
       where: { id },
-      relations: ['campus'],
+      relations: ['campus'], // Certifique-se de que o nome é 'campus' na Entity
     });
 
     if (!course) {

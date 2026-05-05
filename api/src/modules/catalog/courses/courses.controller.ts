@@ -11,7 +11,6 @@ import {
 
 import {
   ApiBearerAuth,
-  ApiBody,
   ApiOperation,
   ApiParam,
   ApiTags,
