@@ -1,5 +1,6 @@
 import { registerAs } from '@nestjs/config';
 import { config as dotenvConfig } from 'dotenv';
+import { AuditSubscriber } from 'src/modules/audit/audit.subscriber';
 import { DataSource, DataSourceOptions } from 'typeorm';
 
 dotenvConfig({ path: '.env' });
@@ -15,6 +16,7 @@ const config = {
   migrations: ['dist/database/migrations/*{.ts,.js}'],
   autoLoadEntities: true,
   synchronize: false,
+  subscribers: [AuditSubscriber],
 };
 
 export default registerAs('typeorm', () => config);

@@ -8,7 +8,6 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { Course } from '../courses/course.entity';
-import { Sector } from '../sector/sector.entity';
 import { Service } from '../services/service.entity';
 
 @Entity('campuses')
@@ -26,13 +25,10 @@ export class Campus {
   address?: string;
 
   @Column({ type: 'enum', enum: Status, default: Status.ACTIVE })
-  active!: Status;
+  status!: Status;
 
   @OneToMany(() => Service, (service) => service.campus)
   services?: Service[];
-
-  @OneToMany(() => Sector, (sector) => sector.campus)
-  sectors?: Sector[];
 
   @OneToMany(() => Course, (course) => course.campus)
   courses?: Course[];

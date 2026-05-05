@@ -4,11 +4,12 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  OneToMany,
+  JoinTable,
+  ManyToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { UserProfile } from './user-profile.entity';
+import { Profile } from '../profiles/profiles.entity';
 
 @Entity('users')
 export class User {
@@ -27,8 +28,15 @@ export class User {
   @Column({ type: 'enum', enum: Status, default: Status.ACTIVE })
   status!: Status;
 
-  @OneToMany(() => UserProfile, (up) => up.user)
-  userProfiles!: UserProfile[];
+  @ManyToMany(() => Profile, (profile) => profile.users, {
+    eager: true,
+  })
+  @JoinTable({
+    name: 'user_profiles',
+    joinColumn: { name: 'user_id', referencedColumnName: 'id' },
+    inverseJoinColumn: { name: 'profile_id', referencedColumnName: 'id' },
+  })
+  profiles!: Profile[];
 
   @CreateDateColumn()
   created_at!: Date;
