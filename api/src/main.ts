@@ -3,8 +3,10 @@ import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import helmet from 'helmet';
+import mongoose from 'mongoose';
 
 async function bootstrap() {
+  mongoose.set('debug', true);
   const app = await NestFactory.create(AppModule);
 
   app.use(helmet());
@@ -14,6 +16,7 @@ async function bootstrap() {
     new ValidationPipe({
       whitelist: true,
       forbidNonWhitelisted: true,
+      transform: true,
     }),
   );
 
