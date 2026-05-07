@@ -10,6 +10,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { CampusModule } from './modules/catalog/campus/campus.module';
 import { AuditModule } from './modules/audit/audit.module';
 import { CoursesModule } from './modules/catalog/courses/courses.module';
+import { SurveysModule } from './modules/surveys/surveys.module';
 
 @Module({
   imports: [
@@ -37,6 +38,7 @@ import { CoursesModule } from './modules/catalog/courses/courses.module';
     CoursesModule,
     UsersModule,
     ProfilesModule,
+    SurveysModule,
     SeedModule,
   ],
 })

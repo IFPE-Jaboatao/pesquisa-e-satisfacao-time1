@@ -15,7 +15,9 @@ const config = {
   entities: ['dist/**/*.entity{.ts,.js}'],
   migrations: ['dist/database/migrations/*{.ts,.js}'],
   autoLoadEntities: true,
-  synchronize: false,
+  synchronize: true,
+  logging: true,
+  logger: 'advanced-console',
   subscribers: [AuditSubscriber],
 };
 
