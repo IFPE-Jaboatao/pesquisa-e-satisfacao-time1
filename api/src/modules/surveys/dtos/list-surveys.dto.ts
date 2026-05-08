@@ -20,6 +20,11 @@ export class ListSurveysDto {
 
   @ApiPropertyOptional()
   @IsOptional()
+  @IsString()
+  service_id?: string;
+
+  @ApiPropertyOptional()
+  @IsOptional()
   @IsBoolean()
   is_anonymous?: boolean;
 

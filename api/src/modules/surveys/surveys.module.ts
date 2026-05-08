@@ -10,6 +10,7 @@ import { AccessToken, AccessTokenSchema } from './schemas/access-token.schema';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Course } from '../catalog/courses/course.entity';
 import { Campus } from '../catalog/campus/campus.entity';
+import { Service } from '../catalog/services/service.entity';
 
 @Module({
   imports: [
@@ -18,7 +19,7 @@ import { Campus } from '../catalog/campus/campus.entity';
       { name: Answer.name, schema: AnswerSchema },
       { name: AccessToken.name, schema: AccessTokenSchema },
     ]),
-    TypeOrmModule.forFeature([Course, Campus]),
+    TypeOrmModule.forFeature([Course, Campus, Service]),
   ],
   controllers: [SurveysController],
   providers: [SurveysService],
