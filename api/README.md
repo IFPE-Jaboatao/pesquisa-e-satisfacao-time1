@@ -176,7 +176,12 @@ src/
     │   │   ├── classes.entity.ts
     │   │   ├── enrollment.entity.ts
     │   │   └── dtos/
-    │   └── services/                 # Serviços
+    │   └── services/                 # Gestão de serviços por campus
+    │       ├── services.controller.ts
+    │       ├── services.service.ts
+    │       ├── services.module.ts
+    │       ├── service.entity.ts
+    │       └── dtos/
     └── surveys/                      # Pesquisas (MongoDB)
         ├── surveys.controller.ts
         ├── surveys.service.ts
@@ -294,6 +299,31 @@ Módulo completo para gestão de turmas e matrículas de alunos, com validaçõe
 | Matrícula duplicada | Aluno não pode ser matriculado duas vezes na mesma turma (constraint unique no banco) |
 | Perfil de aluno | Apenas usuários com perfil `ALUNO` podem ser matriculados |
 | Turma inativa | Bloqueia matrícula em turmas inativas |
+
+#### Services (Serviços)
+
+Módulo para gestão de serviços oferecidos por campus (ex: biblioteca, restaurante, laboratório).
+
+| Método | Endpoint | Auth | Roles | Descrição |
+|---|---|---|---|---|
+| POST | `/services` | JWT | ADMIN | Criar serviço |
+| GET | `/services` | JWT | Todos | Listar serviços |
+| GET | `/services/:id` | JWT | Todos | Buscar serviço |
+| PATCH | `/services/:id` | JWT | ADMIN | Atualizar serviço |
+| PATCH | `/services/:id/inactivate` | JWT | ADMIN | Inativar serviço |
+| DELETE | `/services/:id` | JWT | ADMIN | Remover serviço |
+
+**Entidade:**
+
+| Entidade | Tabela | Descrição |
+|---|---|---|
+| `Service` | `services` | Serviço vinculado a um campus com nome e descrição |
+
+**Validações implementadas:**
+
+| Validação | Descrição |
+|---|---|
+| Serviço duplicado | Bloqueia criação de serviço com mesmo nome para o mesmo campus |
 
 ### Surveys Module
 
