@@ -218,6 +218,9 @@ JWT_EXPIRES_IN=1d
 | POST | `/users` | JWT (ADMIN) | Criar usuário |
 | GET | `/users` | JWT (ADMIN) | Listar usuários |
 | GET | `/users/:id` | JWT (ADMIN) | Buscar usuário |
+| PATCH | `/users/:id` | JWT (ADMIN) | Atualizar usuário |
+| PATCH | `/users/:id/inactivate` | JWT (ADMIN) | Inativar usuário |
+| DELETE | `/users/:id` | JWT (ADMIN) | Remover usuário (soft-delete) |
 
 ### Campus
 

@@ -1,12 +1,18 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import bcrypt from 'bcryptjs';
 
 import { User } from './user.entity';
 import { CreateUserDto } from './dtos/create-user.dto';
+import { UpdateUserDto } from './dtos/update-user.dto';
 import { UserResponseDto } from './dtos/user-response.dto';
 import { ProfilesService } from '../profiles/profiles.service';
+import { Status } from 'src/common/enums/status.enum';
 
 @Injectable()
 export class UsersService {
@@ -71,5 +77,74 @@ export class UsersService {
       where: { email },
       relations: ['profiles'],
     });
+  }
+
+  async update(id: string, data: UpdateUserDto): Promise<UserResponseDto> {
+    const user = await this.userRepository.findOne({
+      where: { id },
+      relations: ['profiles'],
+    });
+
+    if (!user) {
+      throw new NotFoundException('Usuário não encontrado');
+    }
+
+    if (data.email && data.email !== user.email) {
+      const existing = await this.userRepository.findOne({
+        where: { email: data.email },
+      });
+
+      if (existing) {
+        throw new BadRequestException('Email já está em uso');
+      }
+    }
+
+    if (data.password) {
+      user.password = await bcrypt.hash(data.password, 10);
+    }
+
+    if (data.profiles) {
+      const profiles = await this.profilesService.findByIds(data.profiles);
+
+      if (!profiles.length || profiles.length !== data.profiles.length) {
+        throw new BadRequestException('Um ou mais perfis são inválidos');
+      }
+
+      user.profiles = profiles;
+    }
+
+    Object.assign(user, data);
+
+    const updated = await this.userRepository.save(user);
+    return this.toResponse(updated);
+  }
+
+  async inactivate(id: string): Promise<UserResponseDto> {
+    const user = await this.userRepository.findOne({
+      where: { id },
+      relations: ['profiles'],
+    });
+
+    if (!user) {
+      throw new NotFoundException('Usuário não encontrado');
+    }
+
+    user.status = Status.INACTIVE;
+
+    const updated = await this.userRepository.save(user);
+    return this.toResponse(updated);
+  }
+
+  async delete(id: string): Promise<void> {
+    const user = await this.userRepository.findOne({
+      where: { id },
+      relations: ['profiles'],
+    });
+
+    if (!user) {
+      throw new NotFoundException('Usuário não encontrado');
+    }
+
+    await this.userRepository.softRemove(user);
   }
 }

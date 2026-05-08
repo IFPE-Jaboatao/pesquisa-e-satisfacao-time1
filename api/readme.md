@@ -149,8 +149,8 @@ src/
     │   ├── user.entity.ts
     │   └── dtos/
     │       ├── create-user.dto.ts
-    │       ├── user-response.dto.ts
-    │       └── user.seeds.ts
+    │       ├── update-user.dto.ts
+    │       └── user-response.dto.ts
     ├── profiles/                     # Perfis de acesso
     │   ├── profiles.entity.ts
     │   ├── profiles.module.ts
@@ -228,6 +228,9 @@ Gestão de usuários do sistema.
 | POST | `/users` | JWT | ADMIN | Criar novo usuário |
 | GET | `/users` | JWT | ADMIN | Listar todos os usuários |
 | GET | `/users/:id` | JWT | ADMIN | Buscar usuário por ID |
+| PATCH | `/users/:id` | JWT | ADMIN | Atualizar usuário |
+| PATCH | `/users/:id/inactivate` | JWT | ADMIN | Inativar usuário |
+| DELETE | `/users/:id` | JWT | ADMIN | Remover usuário (soft-delete) |
 
 ### Profiles Module
 
