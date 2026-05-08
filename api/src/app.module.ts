@@ -10,6 +10,8 @@ import { AuthModule } from './modules/auth/auth.module';
 import { CampusModule } from './modules/catalog/campus/campus.module';
 import { AuditModule } from './modules/audit/audit.module';
 import { CoursesModule } from './modules/catalog/courses/courses.module';
+import { ClassesModule } from './modules/catalog/classes/classes.module';
+import { ServicesModule } from './modules/catalog/services/services.module';
 import { SurveysModule } from './modules/surveys/surveys.module';
 
 @Module({
@@ -36,6 +38,8 @@ import { SurveysModule } from './modules/surveys/surveys.module';
     AuditModule,
     CampusModule,
     CoursesModule,
+    ClassesModule,
+    ServicesModule,
     UsersModule,
     ProfilesModule,
     SurveysModule,
