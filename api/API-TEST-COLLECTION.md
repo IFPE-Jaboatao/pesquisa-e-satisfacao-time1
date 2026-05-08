@@ -243,6 +243,113 @@ Todas as respostas seguem o formato `ApiResponseDto<T>`:
 }
 ```
 
+#### ❌ Erro — Perfil ADMIN não permitido
+```json
+// Request
+{
+  "name": "Novo Admin",
+  "email": "novoadmin@email.com",
+  "password": "senha123",
+  "profiles": ["e5f6a7b8-c9d0-1234-efab-345678901234"]
+}
+
+// Response 400
+{
+  "success": false,
+  "message": "Não é permitido atribuir o perfil ADMIN",
+  "data": null,
+  "errors": ["Não é permitido atribuir o perfil ADMIN"]
+}
+```
+
+#### ❌ Erro — Perfis ALUNO e DOCENTE simultâneos
+```json
+// Request
+{
+  "name": "Maria",
+  "email": "maria@email.com",
+  "password": "senha123",
+  "profiles": [
+    "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "b2c3d4e5-f6a7-8901-bcde-f12345678901"
+  ]
+}
+
+// Response 400
+{
+  "success": false,
+  "message": "Não é permitido criar um usuário com os perfis ALUNO e DOCENTE simultaneamente",
+  "data": null,
+  "errors": ["Não é permitido criar um usuário com os perfis ALUNO e DOCENTE simultaneamente"]
+}
+```
+
+#### ❌ Erro — Perfis ALUNO e GESTOR simultâneos
+```json
+// Request
+{
+  "name": "Pedro",
+  "email": "pedro@email.com",
+  "password": "senha123",
+  "profiles": [
+    "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "d4e5f6a7-b8c9-0123-defa-234567890123"
+  ]
+}
+
+// Response 400
+{
+  "success": false,
+  "message": "Não é permitido criar um usuário com os perfis ALUNO e GESTOR simultaneamente",
+  "data": null,
+  "errors": ["Não é permitido criar um usuário com os perfis ALUNO e GESTOR simultaneamente"]
+}
+```
+
+#### ❌ Erro — Perfis ALUNO e TECNICO simultâneos
+```json
+// Request
+{
+  "name": "Ana",
+  "email": "ana@email.com",
+  "password": "senha123",
+  "profiles": [
+    "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "c3d4e5f6-a7b8-9012-cdef-123456789012"
+  ]
+}
+
+// Response 400
+{
+  "success": false,
+  "message": "Não é permitido criar um usuário com os perfis ALUNO e TECNICO simultaneamente",
+  "data": null,
+  "errors": ["Não é permitido criar um usuário com os perfis ALUNO e TECNICO simultaneamente"]
+}
+```
+
+#### ❌ Erro — Perfis ALUNO e ADMIN simultâneos
+```json
+// Request
+{
+  "name": "Carlos",
+  "email": "carlos@email.com",
+  "password": "senha123",
+  "profiles": [
+    "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "e5f6a7b8-c9d0-1234-efab-345678901234"
+  ]
+}
+
+// Response 400
+{
+  "success": false,
+  "message": "Não é permitido atribuir o perfil ADMIN",
+  "data": null,
+  "errors": ["Não é permitido atribuir o perfil ADMIN"]
+}
+```
+
 ---
 
 ### GET `/users` — Listar usuários
@@ -357,6 +464,43 @@ Todas as respostas seguem o formato `ApiResponseDto<T>`:
   "message": "Usuário não encontrado",
   "data": null,
   "errors": ["Usuário não encontrado"]
+}
+```
+
+#### ❌ Erro — Perfil ADMIN não permitido
+```json
+// Request params: id = "f47ac10b-58cc-4372-a567-0e02b2c3d479"
+// Request
+{
+  "profiles": ["e5f6a7b8-c9d0-1234-efab-345678901234"]
+}
+
+// Response 400
+{
+  "success": false,
+  "message": "Não é permitido atribuir o perfil ADMIN",
+  "data": null,
+  "errors": ["Não é permitido atribuir o perfil ADMIN"]
+}
+```
+
+#### ❌ Erro — Perfis ALUNO e DOCENTE simultâneos
+```json
+// Request params: id = "f47ac10b-58cc-4372-a567-0e02b2c3d479"
+// Request
+{
+  "profiles": [
+    "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "b2c3d4e5-f6a7-8901-bcde-f12345678901"
+  ]
+}
+
+// Response 400
+{
+  "success": false,
+  "message": "Não é permitido criar um usuário com os perfis ALUNO e DOCENTE simultaneamente",
+  "data": null,
+  "errors": ["Não é permitido criar um usuário com os perfis ALUNO e DOCENTE simultaneamente"]
 }
 ```
 

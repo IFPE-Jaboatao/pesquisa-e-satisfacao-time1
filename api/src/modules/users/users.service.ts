@@ -11,6 +11,7 @@ import { User } from './user.entity';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { UserResponseDto } from './dtos/user-response.dto';
+import { Profile } from '../profiles/profiles.entity';
 import { ProfilesService } from '../profiles/profiles.service';
 import { Status } from 'src/common/enums/status.enum';
 
@@ -22,6 +23,34 @@ export class UsersService {
 
     private readonly profilesService: ProfilesService,
   ) {}
+
+  private validateProfileCombinations(profiles: Profile[]): void {
+    const names = profiles.map((p) => p.name);
+
+    if (names.includes('ADMIN')) {
+      throw new BadRequestException(
+        'Não é permitido atribuir o perfil ADMIN',
+      );
+    }
+
+    if (names.includes('ALUNO') && names.includes('DOCENTE')) {
+      throw new BadRequestException(
+        'Não é permitido criar um usuário com os perfis ALUNO e DOCENTE simultaneamente',
+      );
+    }
+
+    if (names.includes('ALUNO') && names.includes('GESTOR')) {
+      throw new BadRequestException(
+        'Não é permitido criar um usuário com os perfis ALUNO e GESTOR simultaneamente',
+      );
+    }
+
+    if (names.includes('ALUNO') && names.includes('TECNICO')) {
+      throw new BadRequestException(
+        'Não é permitido criar um usuário com os perfis ALUNO e TECNICO simultaneamente',
+      );
+    }
+  }
 
   private toResponse(user: User): UserResponseDto {
     return {
@@ -38,6 +67,8 @@ export class UsersService {
     if (!profiles.length || profiles.length !== data.profiles.length) {
       throw new BadRequestException('Um ou mais perfis são inválidos');
     }
+
+    this.validateProfileCombinations(profiles);
 
     const hashedPassword: string = await bcrypt.hash(data.password, 10);
 
@@ -109,6 +140,8 @@ export class UsersService {
       if (!profiles.length || profiles.length !== data.profiles.length) {
         throw new BadRequestException('Um ou mais perfis são inválidos');
       }
+
+      this.validateProfileCombinations(profiles);
 
       user.profiles = profiles;
     }
