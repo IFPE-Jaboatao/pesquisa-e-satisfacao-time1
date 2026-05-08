@@ -35,6 +35,11 @@ export class CreateSurveyDto {
   course_id!: string;
 
   @ApiProperty()
+  @IsUUID()
+  @IsNotEmpty()
+  service_id!: string;
+
+  @ApiProperty()
   @IsBoolean()
   is_anonymous!: boolean;
 

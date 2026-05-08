@@ -18,6 +18,7 @@ import { UpdateSurveyDto } from './dtos/update-survey.dto';
 import { Campus } from '../catalog/campus/campus.entity';
 import { Repository } from 'typeorm';
 import { Course } from '../catalog/courses/course.entity';
+import { Service } from '../catalog/services/service.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import {
   SurveyAnswerResponse,
@@ -37,6 +38,9 @@ export class SurveysService {
 
     @InjectRepository(Campus)
     private readonly campusRepository: Repository<Campus>,
+
+    @InjectRepository(Service)
+    private readonly serviceRepository: Repository<Service>,
   ) {}
 
   async findAll(filters: ListSurveysDto) {
@@ -56,6 +60,10 @@ export class SurveysService {
 
     if (rest.course_id) {
       query.course_id = rest.course_id;
+    }
+
+    if (rest.service_id) {
+      query.service_id = rest.service_id;
     }
 
     if (typeof rest.is_anonymous === 'boolean') {
@@ -143,6 +151,14 @@ export class SurveysService {
 
     if (!course) {
       throw new BadRequestException('Curso nao encontrado');
+    }
+
+    const service = await this.serviceRepository.findOneBy({
+      id: data.service_id,
+    });
+
+    if (!service) {
+      throw new BadRequestException('Serviço nao encontrado');
     }
 
     const questions = data.questions.map((q) => ({

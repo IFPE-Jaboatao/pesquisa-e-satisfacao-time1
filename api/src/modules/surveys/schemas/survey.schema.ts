@@ -15,6 +15,9 @@ export class Survey {
   @Prop({ required: true })
   course_id!: string;
 
+  @Prop({ required: true })
+  service_id!: string;
+
   @Prop({ default: false })
   is_anonymous!: boolean;
 

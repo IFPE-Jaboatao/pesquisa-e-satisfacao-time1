@@ -17,6 +17,9 @@ export class SurveyResponseDto {
   course_id!: string;
 
   @ApiProperty()
+  service_id!: string;
+
+  @ApiProperty()
   is_anonymous!: boolean;
 
   @ApiProperty()
