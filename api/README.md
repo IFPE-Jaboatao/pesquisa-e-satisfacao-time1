@@ -65,6 +65,21 @@ Após iniciar, acesse:
 
 ## Banco de Dados
 
+### Tabelas PostgreSQL
+
+| Tabela | Descrição |
+|---|---|
+| `users` | Contas de usuário (UUID, soft-delete) |
+| `profiles` | Perfis de acesso |
+| `user_profiles` | Relação muitos-para-muitos entre usuários e perfis |
+| `campuses` | Campi do IFPE |
+| `courses` | Cursos acadêmicos |
+| `classes` | Turmas vinculadas a cursos |
+| `enrollments` | Matrículas de alunos em turmas (unique: user + class) |
+| `disciplines` | Disciplinas vinculadas a cursos |
+| `services` | Serviços oferecidos por campus |
+| `audit_logs` | Trilha de auditoria automática (JSONB) |
+
 ### Migrações
 
 ```bash
@@ -150,8 +165,20 @@ src/
     ├── catalog/                      # Catálogo acadêmico
     │   ├── campus/                   # Gestão de campi
     │   ├── courses/                  # Gestão de cursos
-    │   ├── classes/                  # Turmas
+    │   │   ├── courses.controller.ts
+    │   │   ├── courses.service.ts
+    │   │   ├── courses.module.ts
+    │   │   ├── course.entity.ts
+    │   │   └── dtos/
+    │   ├── classes/                  # Gestão de turmas e matrículas
+    │   │   ├── classes.controller.ts
+    │   │   ├── classes.service.ts
+    │   │   ├── classes.module.ts
+    │   │   ├── classes.entity.ts
+    │   │   ├── enrollment.entity.ts
+    │   │   └── dtos/
     │   ├── disciplines/              # Disciplinas
+    │   │   └── discipline.entity.ts
     │   └── services/                 # Serviços
     └── surveys/                      # Pesquisas (MongoDB)
         ├── surveys.controller.ts
@@ -237,6 +264,40 @@ Sistema de auditoria automática via TypeORM Entity Subscriber. Registra automat
 | PATCH | `/courses/:id/inactivate` | JWT | ADMIN | Inativar curso |
 | DELETE | `/courses/:id` | JWT | ADMIN | Remover curso |
 
+#### Classes (Turmas)
+
+Módulo completo para gestão de turmas e matrículas de alunos, com validações automáticas de integridade acadêmica.
+
+| Método | Endpoint | Auth | Roles | Descrição |
+|---|---|---|---|---|
+| POST | `/classes` | JWT | ADMIN | Criar turma |
+| GET | `/classes` | JWT | Todos | Listar turmas |
+| GET | `/classes/:id` | JWT | Todos | Buscar turma |
+| PATCH | `/classes/:id` | JWT | ADMIN | Atualizar turma |
+| PATCH | `/classes/:id/inactivate` | JWT | ADMIN | Inativar turma |
+| DELETE | `/classes/:id` | JWT | ADMIN | Remover turma |
+| POST | `/classes/:id/enroll` | JWT | ADMIN | Matricular aluno na turma |
+| GET | `/classes/:id/students` | JWT | ADMIN, GESTOR, DOCENTE | Listar alunos matriculados |
+| DELETE | `/classes/:id/students/:userId` | JWT | ADMIN | Cancelar matrícula do aluno |
+
+**Entidades:**
+
+| Entidade | Tabela | Descrição |
+|---|---|---|
+| `Class` | `classes` | Turma vinculada a um curso com semestre/ano |
+| `Enrollment` | `enrollments` | Matrícula de aluno em uma turma (unique: user + class) |
+
+**Validações implementadas:**
+
+| Validação | Descrição |
+|---|---|
+| Turma duplicada | Bloqueia criação de turma com mesmo nome + curso + semestre + ano |
+| Data disruptiva | Ano da turma não pode ser anterior à criação do curso nem superior ao ano atual |
+| Semestre inválido | Semestre deve ser 1 ou 2 |
+| Matrícula duplicada | Aluno não pode ser matriculado duas vezes na mesma turma (constraint unique no banco) |
+| Perfil de aluno | Apenas usuários com perfil `ALUNO` podem ser matriculados |
+| Turma inativa | Bloqueia matrícula em turmas inativas |
+
 ### Surveys Module
 
 Módulo de pesquisas armazenado no MongoDB, com suporte a questões de múltiplos tipos e respostas anônimas via token público.
@@ -276,6 +337,8 @@ Módulo de pesquisas armazenado no MongoDB, com suporte a questões de múltiplo
 | **Strategy** | Passport JWT para extração de token |
 | **Subscriber** | TypeORM Entity Subscriber para auditoria |
 | **Soft Delete** | `deleted_at` para surveys, campus, courses |
+| **Unique Constraint** | `@Unique` no TypeORM para evitar duplicidade de matrícula |
+| **Validação de Regra de Negócio** | Verificação de data, status e perfil antes de operações |
 | **Response Wrapper** | `ApiResponseDto<T>` consistente |
 | **Decorator** | `@Roles()` para controle de acesso |
 

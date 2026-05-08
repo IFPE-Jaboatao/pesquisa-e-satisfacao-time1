@@ -242,6 +242,20 @@ JWT_EXPIRES_IN=1d
 | PATCH | `/courses/:id/inactivate` | JWT (ADMIN) | Inativar curso |
 | DELETE | `/courses/:id` | JWT (ADMIN) | Remover curso |
 
+### Turmas
+
+| Método | Endpoint | Auth | Descrição |
+|---|---|---|---|
+| POST | `/classes` | JWT (ADMIN) | Criar turma |
+| GET | `/classes` | JWT (ADMIN, GESTOR, DOCENTE, ALUNO) | Listar turmas |
+| GET | `/classes/:id` | JWT (ADMIN, GESTOR, DOCENTE, ALUNO) | Buscar turma |
+| PATCH | `/classes/:id` | JWT (ADMIN) | Atualizar turma |
+| PATCH | `/classes/:id/inactivate` | JWT (ADMIN) | Inativar turma |
+| DELETE | `/classes/:id` | JWT (ADMIN) | Remover turma |
+| POST | `/classes/:id/enroll` | JWT (ADMIN) | Matricular aluno na turma |
+| GET | `/classes/:id/students` | JWT (ADMIN, GESTOR, DOCENTE) | Listar alunos matriculados |
+| DELETE | `/classes/:id/students/:userId` | JWT (ADMIN) | Cancelar matrícula do aluno |
+
 ### Pesquisas
 
 | Método | Endpoint | Auth | Descrição |
@@ -271,7 +285,8 @@ O projeto utiliza uma **arquitetura dual-banco**:
 | `user_profiles` | Relação muitos-para-muitos entre usuários e perfis |
 | `campuses` | Campi do IFPE |
 | `courses` | Cursos acadêmicos |
-| `classes` | Turmas |
+| `classes` | Turmas vinculadas a cursos |
+| `enrollments` | Matrículas de alunos em turmas (unique: user + class) |
 | `disciplines` | Disciplinas |
 | `services` | Serviços oferecidos por campus |
 | `audit_logs` | Trilha de auditoria automática |
