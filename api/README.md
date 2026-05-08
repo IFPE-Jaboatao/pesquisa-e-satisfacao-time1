@@ -4,7 +4,7 @@ Backend da API REST do sistema de Pesquisa e Satisfação do IFPE, construído c
 
 ## Descrição
 
-API responsável pela gestão de usuários, perfis de acesso, catálogo acadêmico (campi, cursos, turmas, disciplinas, serviços) e pesquisas de satisfação com suporte a respostas anônimas.
+API responsável pela gestão de usuários, perfis de acesso, catálogo acadêmico (campi, cursos, turmas, serviços) e pesquisas de satisfação com suporte a respostas anônimas.
 
 Utiliza uma **arquitetura dual-banco**:
 - **PostgreSQL** (TypeORM) — dados relacionais estruturados
@@ -76,7 +76,6 @@ Após iniciar, acesse:
 | `courses` | Cursos acadêmicos |
 | `classes` | Turmas vinculadas a cursos |
 | `enrollments` | Matrículas de alunos em turmas (unique: user + class) |
-| `disciplines` | Disciplinas vinculadas a cursos |
 | `services` | Serviços oferecidos por campus |
 | `audit_logs` | Trilha de auditoria automática (JSONB) |
 
@@ -177,8 +176,6 @@ src/
     │   │   ├── classes.entity.ts
     │   │   ├── enrollment.entity.ts
     │   │   └── dtos/
-    │   ├── disciplines/              # Disciplinas
-    │   │   └── discipline.entity.ts
     │   └── services/                 # Serviços
     └── surveys/                      # Pesquisas (MongoDB)
         ├── surveys.controller.ts

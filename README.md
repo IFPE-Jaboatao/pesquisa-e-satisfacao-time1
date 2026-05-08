@@ -15,7 +15,7 @@ pesquisa-e-satisfacao-time1/
 
 ### Backend (`api/`)
 
-API RESTful construída com **NestJS** que gerencia usuários, perfis, campi, cursos, disciplinas e pesquisas de satisfação.
+API RESTful construída com **NestJS** que gerencia usuários, perfis, campi, cursos, turmas e pesquisas de satisfação.
 
 - **Autenticação**: JWT com Passport
 - **Autorização**: Controle de acesso baseado em perfis (RBAC)
@@ -139,7 +139,6 @@ src/
     │   ├── campus/            # Gestão de campi
     │   ├── courses/           # Gestão de cursos
     │   ├── classes/           # Turmas
-    │   ├── disciplines/       # Disciplinas
     │   └── services/          # Serviços por campus
     └── surveys/               # Pesquisas de satisfação (MongoDB)
         ├── schemas/           # Schemas Mongoose
@@ -287,7 +286,6 @@ O projeto utiliza uma **arquitetura dual-banco**:
 | `courses` | Cursos acadêmicos |
 | `classes` | Turmas vinculadas a cursos |
 | `enrollments` | Matrículas de alunos em turmas (unique: user + class) |
-| `disciplines` | Disciplinas |
 | `services` | Serviços oferecidos por campus |
 | `audit_logs` | Trilha de auditoria automática |
 

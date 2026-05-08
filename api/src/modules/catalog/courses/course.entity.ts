@@ -11,7 +11,6 @@ import {
 import { Campus } from '../campus/campus.entity';
 import { Status } from 'src/common/enums/status.enum';
 import { Class } from '../classes/classes.entity';
-import { Discipline } from '../disciplines/discipline.entity';
 
 @Entity('courses')
 export class Course {
@@ -33,9 +32,6 @@ export class Course {
 
   @OneToMany(() => Class, (c) => c.course)
   classes!: Class[];
-
-  @OneToMany(() => Discipline, (d) => d.course)
-  disciplines!: Discipline[];
 
   @CreateDateColumn()
   created_at!: Date;
