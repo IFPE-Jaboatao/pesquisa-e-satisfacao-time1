@@ -4,11 +4,13 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { Course } from '../courses/course.entity';
 import { Status } from 'src/common/enums/status.enum';
+import { Enrollment } from './enrollment.entity';
 
 @Entity('classes')
 export class Class {
@@ -23,16 +25,19 @@ export class Class {
   name!: string;
 
   @Column()
-  code?: string;
+  code!: string;
 
   @Column()
-  semester?: number;
+  semester!: number;
 
   @Column()
-  year?: number;
+  year!: number;
 
   @Column({ type: 'enum', enum: Status, default: Status.ACTIVE })
   active!: Status;
+
+  @OneToMany(() => Enrollment, (enrollment) => enrollment.class)
+  enrollments!: Enrollment[];
 
   @CreateDateColumn()
   created_at!: Date;

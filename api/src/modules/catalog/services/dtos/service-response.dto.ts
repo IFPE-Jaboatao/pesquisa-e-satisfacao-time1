@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Status } from 'src/common/enums/status.enum';
 
-export class CourseResponseDto {
+export class ServiceResponseDto {
   @ApiProperty()
   id!: string;
 
@@ -9,10 +9,13 @@ export class CourseResponseDto {
   name!: string;
 
   @ApiProperty()
-  code!: string;
+  description?: string;
 
   @ApiProperty()
   campusId!: string;
+
+  @ApiProperty()
+  campusName!: string;
 
   @ApiProperty({ enum: Status })
   status!: Status;

@@ -1,24 +1,30 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Status } from 'src/common/enums/status.enum';
 
-export class CourseResponseDto {
+export class EnrollmentResponseDto {
   @ApiProperty()
   id!: string;
 
   @ApiProperty()
-  name!: string;
+  userId!: string;
 
   @ApiProperty()
-  code!: string;
+  userName!: string;
 
   @ApiProperty()
-  campusId!: string;
+  userEmail!: string;
+
+  @ApiProperty()
+  classId!: string;
+
+  @ApiProperty()
+  className!: string;
 
   @ApiProperty({ enum: Status })
   status!: Status;
 
   @ApiProperty()
-  created_at!: Date;
+  enrolled_at!: Date;
 
   @ApiProperty()
   updated_at!: Date;

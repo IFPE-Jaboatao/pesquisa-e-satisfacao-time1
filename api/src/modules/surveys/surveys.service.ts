@@ -293,9 +293,8 @@ export class SurveysService {
   ): void {
     const duplicatedQuestions = responses.filter(
       (response, index, self) =>
-        self.findIndex(
-          (item) => item.question_id === response.question_id,
-        ) !== index,
+        self.findIndex((item) => item.question_id === response.question_id) !==
+        index,
     );
 
     if (duplicatedQuestions.length > 0) {
@@ -317,9 +316,7 @@ export class SurveysService {
     }
 
     for (const question of survey.questions) {
-      const response = responses.find(
-        (r) => r.question_id === question.id,
-      );
+      const response = responses.find((r) => r.question_id === question.id);
 
       if (question.required && !response) {
         throw new BadRequestException(

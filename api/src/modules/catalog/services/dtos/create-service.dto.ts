@@ -8,18 +8,18 @@ import {
 } from 'class-validator';
 import { Status } from 'src/common/enums/status.enum';
 
-export class CreateCourseDto {
-  @ApiProperty({ example: 'Engenharia de Software' })
+export class CreateServiceDto {
+  @ApiProperty({ example: 'Biblioteca' })
   @IsString()
   @IsNotEmpty()
   name!: string;
 
-  @ApiProperty({ example: 'ESW' })
+  @ApiProperty({ example: 'Acervo bibliográfico e espaço de estudo' })
   @IsString()
-  @IsNotEmpty()
-  code!: string;
+  @IsOptional()
+  description?: string;
 
-  @ApiProperty({ example: 'uuid-campus' })
+  @ApiProperty({ example: 'uuid-do-campus' })
   @IsUUID()
   @IsNotEmpty()
   campusId!: string;

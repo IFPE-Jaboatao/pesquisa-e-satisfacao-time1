@@ -1,28 +1,42 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
   IsEnum,
+  IsInt,
   IsNotEmpty,
   IsOptional,
+  IsPositive,
   IsString,
   IsUUID,
 } from 'class-validator';
 import { Status } from 'src/common/enums/status.enum';
 
-export class CreateCourseDto {
-  @ApiProperty({ example: 'Engenharia de Software' })
+export class CreateClassDto {
+  @ApiProperty({ example: 'Turma A - Programação Web' })
   @IsString()
   @IsNotEmpty()
   name!: string;
 
-  @ApiProperty({ example: 'ESW' })
+  @ApiProperty({ example: 'PW-2026-A' })
   @IsString()
   @IsNotEmpty()
   code!: string;
 
-  @ApiProperty({ example: 'uuid-campus' })
+  @ApiProperty({ example: 'uuid-do-curso' })
   @IsUUID()
   @IsNotEmpty()
-  campusId!: string;
+  courseId!: string;
+
+  @ApiProperty({ example: 1, description: 'Semestre (1 ou 2)' })
+  @IsInt()
+  @IsPositive()
+  @IsNotEmpty()
+  semester!: number;
+
+  @ApiProperty({ example: 2026 })
+  @IsInt()
+  @IsPositive()
+  @IsNotEmpty()
+  year!: number;
 
   @ApiPropertyOptional({ enum: Status, default: Status.ACTIVE })
   @IsOptional()
