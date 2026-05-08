@@ -255,6 +255,17 @@ JWT_EXPIRES_IN=1d
 | GET | `/classes/:id/students` | JWT (ADMIN, GESTOR, DOCENTE) | Listar alunos matriculados |
 | DELETE | `/classes/:id/students/:userId` | JWT (ADMIN) | Cancelar matrícula do aluno |
 
+### Serviços
+
+| Método | Endpoint | Auth | Descrição |
+|---|---|---|---|
+| POST | `/services` | JWT (ADMIN) | Criar serviço |
+| GET | `/services` | JWT | Listar serviços |
+| GET | `/services/:id` | JWT | Buscar serviço |
+| PATCH | `/services/:id` | JWT (ADMIN) | Atualizar serviço |
+| PATCH | `/services/:id/inactivate` | JWT (ADMIN) | Inativar serviço |
+| DELETE | `/services/:id` | JWT (ADMIN) | Remover serviço |
+
 ### Pesquisas
 
 | Método | Endpoint | Auth | Descrição |
