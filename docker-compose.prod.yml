@@ -16,7 +16,7 @@ services:
   adminer:
     image: adminer:latest
     # Porta interna do container (ajuste no Dokploy no domínio → Container Port para o mesmo valor)
-    command: php -S 0.0.0.0:8082 -t /var/www/html
+    command: php -S 0.0.0.0:8080 -t /var/www/html
     restart: unless-stopped
     environment:
       ADMINER_DEFAULT_SERVER: postgres
@@ -25,7 +25,7 @@ services:
     networks:
       - dokploy-network
     expose:
-      - "8082"
+      - "8080"
 
   mongodb:
     image: mongo:7
