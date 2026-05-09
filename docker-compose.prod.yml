@@ -15,6 +15,7 @@ services:
 
   adminer:
     image: adminer:latest
+    command: php -S 0.0.0.0:8080 -t /var/www/html
     restart: unless-stopped
     environment:
       ADMINER_DEFAULT_SERVER: postgres
