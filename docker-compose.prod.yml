@@ -79,20 +79,20 @@ services:
     expose:
       - "3000"
 
-  frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-      args:
-        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-https://api-pesqsat1.lab7.cloud}
-    container_name: app-frontend
-    restart: unless-stopped
-    networks:
-      - dokploy-network
-    depends_on:
-      - backend
-    expose:
-      - "3000"
+  # frontend:
+  #   build:
+  #     context: ./frontend
+  #     dockerfile: Dockerfile
+  #     args:
+  #       NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-https://api-pesqsat1.lab7.cloud}
+  #   container_name: app-frontend
+  #   restart: unless-stopped
+  #   networks:
+  #     - dokploy-network
+  #   depends_on:
+  #     - backend
+  #   expose:
+  #     - "3000"
 volumes:
   postgres_data:
   mongo_data:
