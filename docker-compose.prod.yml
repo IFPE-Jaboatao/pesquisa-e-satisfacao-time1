@@ -67,6 +67,7 @@ services:
       DB_PASS: ${POSTGRES_PASSWORD}
       MONGO_URI: ${MONGO_URI:-mongodb://${MONGO_ROOT_USERNAME}:${MONGO_ROOT_PASSWORD}@mongodb:27017/${MONGO_DATABASE}?authSource=admin}
       JWT_SECRET: ${JWT_SECRET}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN}
     networks:
       - dokploy-network
     depends_on:
