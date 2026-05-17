@@ -25,6 +25,9 @@ export class User {
   @Column()
   password!: string;
 
+  @Column({ nullable: true, unique: true })
+  registration?: string;
+
   @Column({ type: 'enum', enum: Status, default: Status.ACTIVE })
   status!: Status;
 
