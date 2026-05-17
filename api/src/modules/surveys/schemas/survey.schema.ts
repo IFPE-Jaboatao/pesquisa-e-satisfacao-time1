@@ -12,8 +12,8 @@ export class Survey {
   @Prop({ required: true })
   campus_id!: string;
 
-  @Prop({ required: true })
-  course_id!: string;
+  @Prop()
+  course_id?: string;
 
   @Prop({ required: true })
   service_id!: string;
