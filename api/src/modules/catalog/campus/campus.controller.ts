@@ -52,7 +52,7 @@ export class CampusController {
   @Get()
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'), RolesGuard)
-  @Roles('ADMIN', 'GESTOR', 'TECNICO', 'DOCENTE', 'ALUNO')
+  @Roles('ADMIN', 'DOCENTE', 'ALUNO')
   @ApiOperation({ summary: 'Listar campus' })
   @ApiResponse({
     status: 200,
@@ -68,7 +68,7 @@ export class CampusController {
   @Get(':id')
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'), RolesGuard)
-  @Roles('ADMIN', 'GESTOR', 'TECNICO', 'DOCENTE', 'ALUNO')
+  @Roles('ADMIN', 'DOCENTE', 'ALUNO')
   @ApiOperation({ summary: 'Buscar campus por ID' })
   @ApiParam({ name: 'id', example: 'uuid-aqui' })
   @ApiResponse({

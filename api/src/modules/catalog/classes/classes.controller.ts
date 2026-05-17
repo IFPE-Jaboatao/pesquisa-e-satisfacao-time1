@@ -47,7 +47,7 @@ export class ClassesController {
   @Get()
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'), RolesGuard)
-  @Roles('ADMIN', 'GESTOR', 'DOCENTE', 'ALUNO')
+  @Roles('ADMIN', 'DOCENTE', 'ALUNO')
   @ApiOperation({ summary: 'Listar turmas' })
   async findAll(): Promise<ApiResponseDto<ClassResponseDto[]>> {
     const classes = await this.classesService.findAll();
@@ -57,7 +57,7 @@ export class ClassesController {
   @Get(':id')
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'), RolesGuard)
-  @Roles('ADMIN', 'GESTOR', 'DOCENTE', 'ALUNO')
+  @Roles('ADMIN', 'DOCENTE', 'ALUNO')
   @ApiOperation({ summary: 'Buscar turma por ID' })
   @ApiParam({ name: 'id', example: 'uuid-aqui' })
   async findById(
@@ -132,7 +132,7 @@ export class ClassesController {
   @Get(':id/students')
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'), RolesGuard)
-  @Roles('ADMIN', 'GESTOR', 'DOCENTE')
+  @Roles('ADMIN', 'DOCENTE')
   @ApiOperation({ summary: 'Listar alunos matriculados na turma' })
   @ApiParam({ name: 'id', description: 'ID da turma' })
   async findEnrollments(

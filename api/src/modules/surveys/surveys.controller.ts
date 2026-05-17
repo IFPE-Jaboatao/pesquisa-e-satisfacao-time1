@@ -42,7 +42,7 @@ export class SurveysController {
   @Get()
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'), RolesGuard)
-  @Roles('ADMIN', 'GESTOR')
+  @Roles('ADMIN')
   @ApiOperation({ summary: 'Listar pesquisas com filtros e paginação' })
   @ApiResponse({
     status: 200,
@@ -58,7 +58,7 @@ export class SurveysController {
   @Post()
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'), RolesGuard)
-  @Roles('ADMIN', 'GESTOR')
+  @Roles('ADMIN')
   @ApiOperation({ summary: 'Criar pesquisa' })
   @ApiBody({ type: CreateSurveyDto })
   @ApiResponse({
@@ -77,7 +77,7 @@ export class SurveysController {
   @Get(':id')
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'), RolesGuard)
-  @Roles('ALUNO', 'ADMIN', 'GESTOR')
+  @Roles('ALUNO', 'ADMIN')
   @ApiOperation({
     summary: 'Buscar pesquisa por ID',
   })
@@ -171,7 +171,7 @@ export class SurveysController {
   @Patch(':id')
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'), RolesGuard)
-  @Roles('ADMIN', 'GESTOR')
+  @Roles('ADMIN')
   @ApiOperation({ summary: 'Atualizar pesquisa' })
   async update(@Param('id') id: string, @Body() data: UpdateSurveyDto) {
     const survey = await this.service.update(id, data);
@@ -193,7 +193,7 @@ export class SurveysController {
   @Get(':id/anonymous-link')
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'), RolesGuard)
-  @Roles('ADMIN', 'GESTOR')
+  @Roles('ADMIN')
   @ApiOperation({
     summary: 'Obter link anônimo da pesquisa',
   })

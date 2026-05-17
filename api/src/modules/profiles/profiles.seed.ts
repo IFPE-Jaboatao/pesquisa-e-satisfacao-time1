@@ -15,8 +15,6 @@ export class ProfilesSeed {
     const profiles = [
       { name: 'ALUNO', description: 'Aluno da instituição' },
       { name: 'DOCENTE', description: 'Professor' },
-      { name: 'TECNICO', description: 'Servidor técnico' },
-      { name: 'GESTOR', description: 'Gestor acadêmico' },
       { name: 'ADMIN', description: 'Administrador do sistema' },
     ];
 
