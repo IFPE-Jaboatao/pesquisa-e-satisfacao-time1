@@ -12,8 +12,6 @@
 |--------|-----------|
 | `ALUNO` | Aluno da instituicao |
 | `DOCENTE` | Professor |
-| `TECNICO` | Servidor tecnico |
-| `GESTOR` | Gestor academico |
 | `ADMIN` | Administrador do sistema |
 
 **Admin padrão**: `admin@email.com` / `admin123`
@@ -284,50 +282,6 @@ Todas as respostas seguem o formato `ApiResponseDto<T>`:
 }
 ```
 
-#### ❌ Erro — Perfis ALUNO e GESTOR simultâneos
-```json
-// Request
-{
-  "name": "Pedro",
-  "email": "pedro@email.com",
-  "password": "senha123",
-  "profiles": [
-    "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
-    "d4e5f6a7-b8c9-0123-defa-234567890123"
-  ]
-}
-
-// Response 400
-{
-  "success": false,
-  "message": "Não é permitido criar um usuário com os perfis ALUNO e GESTOR simultaneamente",
-  "data": null,
-  "errors": ["Não é permitido criar um usuário com os perfis ALUNO e GESTOR simultaneamente"]
-}
-```
-
-#### ❌ Erro — Perfis ALUNO e TECNICO simultâneos
-```json
-// Request
-{
-  "name": "Ana",
-  "email": "ana@email.com",
-  "password": "senha123",
-  "profiles": [
-    "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
-    "c3d4e5f6-a7b8-9012-cdef-123456789012"
-  ]
-}
-
-// Response 400
-{
-  "success": false,
-  "message": "Não é permitido criar um usuário com os perfis ALUNO e TECNICO simultaneamente",
-  "data": null,
-  "errors": ["Não é permitido criar um usuário com os perfis ALUNO e TECNICO simultaneamente"]
-}
-```
-
 #### ❌ Erro — Perfis ALUNO e ADMIN simultâneos
 ```json
 // Request
@@ -566,7 +520,7 @@ Todas as respostas seguem o formato `ApiResponseDto<T>`:
 
 # Módulo: Campus
 
-## Endpoints Públicos: `ALUNO`, `DOCENTE`, `TECNICO`, `GESTOR`, `ADMIN`
+## Endpoints Públicos: `ALUNO`, `DOCENTE`, `ADMIN`
 ## Endpoints de Escrita: `ADMIN`
 
 ### POST `/campus` — Criar campus
@@ -754,7 +708,7 @@ Todas as respostas seguem o formato `ApiResponseDto<T>`:
 
 # Módulo: Courses
 
-## Endpoints de Leitura: `ADMIN`, `GESTOR`
+## Endpoints de Leitura: `ADMIN`
 ## Endpoints de Escrita: `ADMIN`
 
 ### POST `/courses` — Criar curso
@@ -942,7 +896,7 @@ Todas as respostas seguem o formato `ApiResponseDto<T>`:
 
 ## Endpoints de Leitura: Todos os perfis
 ## Endpoints de Escrita/Alteração: `ADMIN`
-## Endpoints de Listagem de Alunos: `ADMIN`, `GESTOR`, `DOCENTE`
+## Endpoints de Listagem de Alunos: `ADMIN`, `DOCENTE`
 
 ### POST `/classes` — Criar turma
 
@@ -1551,8 +1505,8 @@ Todas as respostas seguem o formato `ApiResponseDto<T>`:
 
 # Módulo: Surveys
 
-## Endpoints de Leitura/Listagem: `ADMIN`, `GESTOR`
-## Endpoints de Criação/Atualização: `ADMIN`, `GESTOR`
+## Endpoints de Leitura/Listagem: `ADMIN`
+## Endpoints de Criação/Atualização: `ADMIN`
 ## Endpoints de Resposta Autenticada: `ALUNO`
 ## Endpoints de Exclusão: `ADMIN`
 ## Endpoints Públicos: Sem autenticação

@@ -38,18 +38,6 @@ export class UsersService {
         'Não é permitido criar um usuário com os perfis ALUNO e DOCENTE simultaneamente',
       );
     }
-
-    if (names.includes('ALUNO') && names.includes('GESTOR')) {
-      throw new BadRequestException(
-        'Não é permitido criar um usuário com os perfis ALUNO e GESTOR simultaneamente',
-      );
-    }
-
-    if (names.includes('ALUNO') && names.includes('TECNICO')) {
-      throw new BadRequestException(
-        'Não é permitido criar um usuário com os perfis ALUNO e TECNICO simultaneamente',
-      );
-    }
   }
 
   private toResponse(user: User): UserResponseDto {

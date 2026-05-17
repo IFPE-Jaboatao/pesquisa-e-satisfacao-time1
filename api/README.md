@@ -98,8 +98,6 @@ Ao iniciar a aplicação pela primeira vez, os seguintes dados são criados auto
 
 **Perfis:**
 - `ADMIN` — Administrador
-- `GESTOR` — Gestor acadêmico
-- `TECNICO` — Servidor técnico
 - `DOCENTE` — Professor
 - `ALUNO` — Estudante
 
@@ -263,8 +261,8 @@ Sistema de auditoria automática via TypeORM Entity Subscriber. Registra automat
 | Método | Endpoint | Auth | Roles | Descrição |
 |---|---|---|---|---|
 | POST | `/courses` | JWT | ADMIN | Criar curso |
-| GET | `/courses` | JWT | ADMIN, GESTOR | Listar cursos |
-| GET | `/courses/:id` | JWT | ADMIN, GESTOR | Buscar curso |
+| GET | `/courses` | JWT | ADMIN | Listar cursos |
+| GET | `/courses/:id` | JWT | ADMIN | Buscar curso |
 | PATCH | `/courses/:id` | JWT | ADMIN | Atualizar curso |
 | PATCH | `/courses/:id/inactivate` | JWT | ADMIN | Inativar curso |
 | DELETE | `/courses/:id` | JWT | ADMIN | Remover curso |
@@ -282,7 +280,7 @@ Módulo completo para gestão de turmas e matrículas de alunos, com validaçõe
 | PATCH | `/classes/:id/inactivate` | JWT | ADMIN | Inativar turma |
 | DELETE | `/classes/:id` | JWT | ADMIN | Remover turma |
 | POST | `/classes/:id/enroll` | JWT | ADMIN | Matricular aluno na turma |
-| GET | `/classes/:id/students` | JWT | ADMIN, GESTOR, DOCENTE | Listar alunos matriculados |
+| GET | `/classes/:id/students` | JWT | ADMIN, DOCENTE | Listar alunos matriculados |
 | DELETE | `/classes/:id/students/:userId` | JWT | ADMIN | Cancelar matrícula do aluno |
 
 **Entidades:**
@@ -340,12 +338,12 @@ Módulo de pesquisas armazenado no MongoDB, com suporte a questões de múltiplo
 
 | Método | Endpoint | Auth | Roles | Descrição |
 |---|---|---|---|---|
-| GET | `/surveys` | JWT | ADMIN, GESTOR | Listar pesquisas (paginado) |
-| POST | `/surveys` | JWT | ADMIN, GESTOR | Criar pesquisa |
+| GET | `/surveys` | JWT | ADMIN | Listar pesquisas (paginado) |
+| POST | `/surveys` | JWT | ADMIN | Criar pesquisa |
 | GET | `/surveys/:id` | JWT | Todos | Buscar pesquisa |
-| PATCH | `/surveys/:id` | JWT | ADMIN, GESTOR | Atualizar pesquisa |
+| PATCH | `/surveys/:id` | JWT | ADMIN | Atualizar pesquisa |
 | PATCH | `/surveys/:id/inactivate` | JWT | ADMIN | Inativar pesquisa |
-| GET | `/surveys/:id/anonymous-link` | JWT | ADMIN, GESTOR | Gerar link anônimo |
+| GET | `/surveys/:id/anonymous-link` | JWT | ADMIN | Gerar link anônimo |
 | GET | `/surveys/public/:token` | Não | — | Acessar pesquisa publicamente |
 | POST | `/surveys/:id/answer` | JWT | ALUNO | Responder (autenticado) |
 | POST | `/surveys/public/:token/answer` | Não | — | Responder (anônimo) |
