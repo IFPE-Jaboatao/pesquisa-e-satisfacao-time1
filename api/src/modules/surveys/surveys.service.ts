@@ -533,4 +533,165 @@ export class SurveysService {
       anonymous_link: `/surveys/public/${token.token}`,
     };
   }
+
+  async getResults(surveyId: string) {
+    const survey = await this.surveyModel.findOne({
+      _id: surveyId,
+      deleted: false,
+    });
+
+    if (!survey) {
+      throw new NotFoundException('Survey não encontrado');
+    }
+
+    const answers = await this.answerModel.find({
+      survey_id: surveyId,
+    });
+
+    const questions = survey.questions.filter(
+      (q) => q.type !== 'TEXT',
+    );
+
+    const questionResults = questions.map((question) => {
+      const allResponses = answers.flatMap((a) => a.responses);
+      const questionAnswers = allResponses
+        .filter((r) => r.question_id === question.id)
+        .map((r) => r.answer);
+
+      const totalAnswers = questionAnswers.length;
+
+      if (question.type === 'SCALE') {
+        const numericAnswers = questionAnswers as number[];
+        const min = question.scale!.min;
+        const max = question.scale!.max;
+
+        const sum = numericAnswers.reduce((acc, v) => acc + v, 0);
+        const mean = totalAnswers > 0 ? sum / totalAnswers : 0;
+        const variance =
+          totalAnswers > 0
+            ? numericAnswers.reduce((acc, v) => acc + (v - mean) ** 2, 0) /
+              totalAnswers
+            : 0;
+        const standardDeviation = Math.sqrt(variance);
+
+        const distributionMap = new Map<number, number>();
+        for (let v = min; v <= max; v++) distributionMap.set(v, 0);
+        for (const v of numericAnswers) {
+          distributionMap.set(v, (distributionMap.get(v) ?? 0) + 1);
+        }
+
+        const distribution = Array.from(distributionMap.entries()).map(
+          ([value, count]) => ({
+            label: value.toString(),
+            value: value.toString(),
+            count,
+            percentage: totalAnswers > 0 ? count / totalAnswers : 0,
+          }),
+        );
+
+        return {
+          question_id: question.id,
+          title: question.title,
+          type: question.type,
+          total_answers: totalAnswers,
+          scale_statistics: {
+            count: totalAnswers,
+            mean: Math.round(mean * 100) / 100,
+            standard_deviation: Math.round(standardDeviation * 100) / 100,
+            min,
+            max,
+            distribution,
+          },
+        };
+      }
+
+      if (question.type === 'SINGLE_CHOICE') {
+        const stringAnswers = questionAnswers as string[];
+        const optionCounts = new Map<string, number>();
+
+        for (const option of question.options ?? []) {
+          optionCounts.set(option.value, 0);
+        }
+
+        for (const value of stringAnswers) {
+          optionCounts.set(value, (optionCounts.get(value) ?? 0) + 1);
+        }
+
+        const distribution = Array.from(optionCounts.entries()).map(
+          ([value, count]) => {
+            const option = question.options?.find((o) => o.value === value);
+            return {
+              label: option?.label ?? value,
+              value,
+              count,
+              percentage: totalAnswers > 0 ? count / totalAnswers : 0,
+            };
+          },
+        );
+
+        return {
+          question_id: question.id,
+          title: question.title,
+          type: question.type,
+          total_answers: totalAnswers,
+          distribution,
+        };
+      }
+
+      if (question.type === 'MULTIPLE_CHOICE') {
+        const arrayAnswers = questionAnswers as string[][];
+        const optionCounts = new Map<string, number>();
+
+        for (const option of question.options ?? []) {
+          optionCounts.set(option.value, 0);
+        }
+
+        for (const values of arrayAnswers) {
+          for (const value of values) {
+            optionCounts.set(value, (optionCounts.get(value) ?? 0) + 1);
+          }
+        }
+
+        const distribution = Array.from(optionCounts.entries()).map(
+          ([value, count]) => {
+            const option = question.options?.find((o) => o.value === value);
+            return {
+              label: option?.label ?? value,
+              value,
+              count,
+              percentage: totalAnswers > 0 ? count / totalAnswers : 0,
+            };
+          },
+        );
+
+        const totalVotes = Array.from(optionCounts.values()).reduce(
+          (a, b) => a + b,
+          0,
+        );
+
+        return {
+          question_id: question.id,
+          title: question.title,
+          type: question.type,
+          total_answers: totalAnswers,
+          total_votes: totalVotes,
+          distribution,
+        };
+      }
+
+      return {
+        question_id: question.id,
+        title: question.title,
+        type: question.type,
+        total_answers: totalAnswers,
+      };
+    });
+
+    return {
+      survey_id: survey._id.toString(),
+      title: survey.title,
+      total_responses: answers.length,
+      questions: questionResults,
+    };
+  }
 }
