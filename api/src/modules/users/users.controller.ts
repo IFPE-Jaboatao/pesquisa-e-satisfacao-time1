@@ -6,13 +6,18 @@ import {
   Param,
   Patch,
   Post,
+  Req,
+  UnauthorizedException,
   UseGuards,
 } from '@nestjs/common';
 
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dtos/create-user.dto';
+import { CreateStudentDto } from './dtos/create-student.dto';
+import { EnrollStudentDto } from './dtos/enroll-student.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { UserResponseDto } from './dtos/user-response.dto';
+import { StudentResponseDto } from './dtos/student-response.dto';
 
 import {
   ApiTags,
@@ -27,10 +32,60 @@ import { ApiResponseDto } from 'src/common/dtos/api-response.dto';
 import { Roles, RolesGuard } from '../auth/guards/roles.guard';
 import { AuthGuard } from '@nestjs/passport';
 
+import { Request } from 'express';
+import { AuthUser } from 'src/common/interfaces/auth-user.interface';
+
 @ApiTags('Users')
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
+
+  @Post('students')
+  @ApiOperation({ summary: 'Cadastrar aluno (público)' })
+  @ApiBody({ type: CreateStudentDto })
+  @ApiResponse({
+    status: 201,
+    description: 'Aluno cadastrado com sucesso',
+    type: StudentResponseDto,
+  })
+  async createStudent(
+    @Body() data: CreateStudentDto,
+  ): Promise<ApiResponseDto<StudentResponseDto>> {
+    const student = await this.usersService.createStudent(data);
+
+    return new ApiResponseDto(true, 'Aluno cadastrado com sucesso', student);
+  }
+
+  @Post('students/:id/enroll')
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles('ALUNO', 'ADMIN')
+  @ApiOperation({ summary: 'Vincular aluno a uma turma' })
+  @ApiParam({ name: 'id', description: 'ID do aluno' })
+  @ApiBody({ type: EnrollStudentDto })
+  @ApiResponse({
+    status: 201,
+    description: 'Aluno vinculado à turma com sucesso',
+    type: StudentResponseDto,
+  })
+  async enrollStudent(
+    @Param('id') id: string,
+    @Body() data: EnrollStudentDto,
+    @Req() req: Request & { user: AuthUser },
+  ): Promise<ApiResponseDto<StudentResponseDto>> {
+    if (
+      req.user.profiles.includes('ALUNO') &&
+      req.user.sub !== id
+    ) {
+      throw new UnauthorizedException(
+        'Você não pode vincular outro aluno à turma',
+      );
+    }
+
+    const student = await this.usersService.enrollStudent(id, data.class_id);
+
+    return new ApiResponseDto(true, 'Aluno vinculado à turma com sucesso', student);
+  }
 
   @Post()
   @ApiBearerAuth()
