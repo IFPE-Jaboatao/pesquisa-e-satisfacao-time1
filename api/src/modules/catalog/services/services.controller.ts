@@ -55,7 +55,7 @@ export class ServicesController {
   @Get()
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'), RolesGuard)
-  @Roles('ADMIN', 'GESTOR', 'TECNICO', 'DOCENTE', 'ALUNO')
+  @Roles('ADMIN', 'DOCENTE', 'ALUNO')
   @ApiOperation({ summary: 'Listar serviços' })
   @ApiResponse({
     status: 200,
@@ -70,7 +70,7 @@ export class ServicesController {
   @Get(':id')
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'), RolesGuard)
-  @Roles('ADMIN', 'GESTOR', 'TECNICO', 'DOCENTE', 'ALUNO')
+  @Roles('ADMIN', 'DOCENTE', 'ALUNO')
   @ApiOperation({ summary: 'Buscar serviço por ID' })
   @ApiParam({ name: 'id', example: 'uuid-aqui' })
   @ApiResponse({

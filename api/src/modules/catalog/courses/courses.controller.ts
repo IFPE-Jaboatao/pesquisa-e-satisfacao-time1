@@ -41,7 +41,7 @@ export class CoursesController {
   @Get()
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'), RolesGuard)
-  @Roles('ADMIN', 'GESTOR')
+  @Roles('ADMIN')
   @ApiOperation({ summary: 'Listar cursos' })
   async findAll() {
     const courses = await this.coursesService.findAll();
@@ -51,7 +51,7 @@ export class CoursesController {
   @Get(':id')
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'), RolesGuard)
-  @Roles('ADMIN', 'GESTOR')
+  @Roles('ADMIN')
   @ApiOperation({ summary: 'Buscar curso por ID' })
   async findById(@Param('id') id: string) {
     const course = await this.coursesService.findById(id);

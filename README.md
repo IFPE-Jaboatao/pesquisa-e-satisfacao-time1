@@ -55,8 +55,7 @@ Interface web construída com **Next.js 16** e **React 19**, com estilização v
 | Perfil | Descrição |
 |---|---|
 | `ADMIN` | Administrador do sistema (acesso completo) |
-| `GESTOR` | Gestor acadêmico (gerencia pesquisas, visualiza campi/cursos) |
-| `TECNICO` | Servidor técnico (visualiza campi) |
+
 | `DOCENTE` | Professor (visualiza campi) |
 | `ALUNO` | Estudante (visualiza campi, visualiza e responde pesquisas) |
 
@@ -238,8 +237,8 @@ JWT_EXPIRES_IN=1d
 | Método | Endpoint | Auth | Descrição |
 |---|---|---|---|
 | POST | `/courses` | JWT (ADMIN) | Criar curso |
-| GET | `/courses` | JWT (ADMIN, GESTOR) | Listar cursos |
-| GET | `/courses/:id` | JWT (ADMIN, GESTOR) | Buscar curso |
+| GET | `/courses` | JWT (ADMIN) | Listar cursos |
+| GET | `/courses/:id` | JWT (ADMIN) | Buscar curso |
 | PATCH | `/courses/:id` | JWT (ADMIN) | Atualizar curso |
 | PATCH | `/courses/:id/inactivate` | JWT (ADMIN) | Inativar curso |
 | DELETE | `/courses/:id` | JWT (ADMIN) | Remover curso |
@@ -249,13 +248,13 @@ JWT_EXPIRES_IN=1d
 | Método | Endpoint | Auth | Descrição |
 |---|---|---|---|
 | POST | `/classes` | JWT (ADMIN) | Criar turma |
-| GET | `/classes` | JWT (ADMIN, GESTOR, DOCENTE, ALUNO) | Listar turmas |
-| GET | `/classes/:id` | JWT (ADMIN, GESTOR, DOCENTE, ALUNO) | Buscar turma |
+| GET | `/classes` | JWT (ADMIN, DOCENTE, ALUNO) | Listar turmas |
+| GET | `/classes/:id` | JWT (ADMIN, DOCENTE, ALUNO) | Buscar turma |
 | PATCH | `/classes/:id` | JWT (ADMIN) | Atualizar turma |
 | PATCH | `/classes/:id/inactivate` | JWT (ADMIN) | Inativar turma |
 | DELETE | `/classes/:id` | JWT (ADMIN) | Remover turma |
 | POST | `/classes/:id/enroll` | JWT (ADMIN) | Matricular aluno na turma |
-| GET | `/classes/:id/students` | JWT (ADMIN, GESTOR, DOCENTE) | Listar alunos matriculados |
+| GET | `/classes/:id/students` | JWT (ADMIN, DOCENTE) | Listar alunos matriculados |
 | DELETE | `/classes/:id/students/:userId` | JWT (ADMIN) | Cancelar matrícula do aluno |
 
 ### Serviços
@@ -273,12 +272,12 @@ JWT_EXPIRES_IN=1d
 
 | Método | Endpoint | Auth | Descrição |
 |---|---|---|---|
-| GET | `/surveys` | JWT (ADMIN, GESTOR) | Listar pesquisas |
-| POST | `/surveys` | JWT (ADMIN, GESTOR) | Criar pesquisa |
+| GET | `/surveys` | JWT (ADMIN) | Listar pesquisas |
+| POST | `/surveys` | JWT (ADMIN) | Criar pesquisa |
 | GET | `/surveys/:id` | JWT | Buscar pesquisa |
-| PATCH | `/surveys/:id` | JWT (ADMIN, GESTOR) | Atualizar pesquisa |
+| PATCH | `/surveys/:id` | JWT (ADMIN) | Atualizar pesquisa |
 | PATCH | `/surveys/:id/inactivate` | JWT (ADMIN) | Inativar pesquisa |
-| GET | `/surveys/:id/anonymous-link` | JWT (ADMIN, GESTOR) | Gerar link anônimo |
+| GET | `/surveys/:id/anonymous-link` | JWT (ADMIN) | Gerar link anônimo |
 | GET | `/surveys/public/:token` | Não | Acesso público à pesquisa |
 | POST | `/surveys/:id/answer` | JWT (ALUNO) | Responder pesquisa (autenticado) |
 | POST | `/surveys/public/:token/answer` | Não | Responder pesquisa (anônimo) |

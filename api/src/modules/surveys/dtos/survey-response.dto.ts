@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class SurveyResponseDto {
   @ApiProperty()
@@ -13,8 +13,8 @@ export class SurveyResponseDto {
   @ApiProperty()
   campus_id!: string;
 
-  @ApiProperty()
-  course_id!: string;
+  @ApiPropertyOptional()
+  course_id?: string;
 
   @ApiProperty()
   service_id!: string;

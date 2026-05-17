@@ -19,7 +19,6 @@ import {
 import { ClassesService } from './classes.service';
 import { CreateClassDto } from './dtos/create-class.dto';
 import { UpdateClassDto } from './dtos/update-class.dto';
-import { EnrollStudentDto } from './dtos/enroll-student.dto';
 import { ClassResponseDto } from './dtos/class-response.dto';
 import { EnrollmentResponseDto } from './dtos/enrollment-response.dto';
 import { ApiResponseDto } from 'src/common/dtos/api-response.dto';
@@ -47,7 +46,7 @@ export class ClassesController {
   @Get()
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'), RolesGuard)
-  @Roles('ADMIN', 'GESTOR', 'DOCENTE', 'ALUNO')
+  @Roles('ADMIN', 'DOCENTE', 'ALUNO')
   @ApiOperation({ summary: 'Listar turmas' })
   async findAll(): Promise<ApiResponseDto<ClassResponseDto[]>> {
     const classes = await this.classesService.findAll();
@@ -57,7 +56,7 @@ export class ClassesController {
   @Get(':id')
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'), RolesGuard)
-  @Roles('ADMIN', 'GESTOR', 'DOCENTE', 'ALUNO')
+  @Roles('ADMIN', 'DOCENTE', 'ALUNO')
   @ApiOperation({ summary: 'Buscar turma por ID' })
   @ApiParam({ name: 'id', example: 'uuid-aqui' })
   async findById(
@@ -110,29 +109,10 @@ export class ClassesController {
     return new ApiResponseDto(true, 'Turma removida com sucesso', null);
   }
 
-  @Post(':id/enroll')
-  @ApiBearerAuth()
-  @UseGuards(AuthGuard('jwt'), RolesGuard)
-  @Roles('ADMIN')
-  @ApiOperation({ summary: 'Matricular aluno na turma' })
-  @ApiParam({ name: 'id', description: 'ID da turma' })
-  @ApiBody({ type: EnrollStudentDto })
-  async enrollStudent(
-    @Param('id') id: string,
-    @Body() data: EnrollStudentDto,
-  ): Promise<ApiResponseDto<EnrollmentResponseDto>> {
-    const enrollment = await this.classesService.enrollStudent(id, data);
-    return new ApiResponseDto(
-      true,
-      'Aluno matriculado com sucesso',
-      enrollment,
-    );
-  }
-
   @Get(':id/students')
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'), RolesGuard)
-  @Roles('ADMIN', 'GESTOR', 'DOCENTE')
+  @Roles('ADMIN', 'DOCENTE')
   @ApiOperation({ summary: 'Listar alunos matriculados na turma' })
   @ApiParam({ name: 'id', description: 'ID da turma' })
   async findEnrollments(

@@ -10,10 +10,8 @@ import { Repository } from 'typeorm';
 import { Class } from './classes.entity';
 import { Enrollment } from './enrollment.entity';
 import { Course } from '../courses/course.entity';
-import { User } from 'src/modules/users/user.entity';
 import { CreateClassDto } from './dtos/create-class.dto';
 import { UpdateClassDto } from './dtos/update-class.dto';
-import { EnrollStudentDto } from './dtos/enroll-student.dto';
 import { ClassResponseDto } from './dtos/class-response.dto';
 import { EnrollmentResponseDto } from './dtos/enrollment-response.dto';
 import { Status } from 'src/common/enums/status.enum';
@@ -30,8 +28,6 @@ export class ClassesService {
     @InjectRepository(Course)
     private readonly courseRepository: Repository<Course>,
 
-    @InjectRepository(User)
-    private readonly userRepository: Repository<User>,
   ) {}
 
   private toResponse(classEntity: Class): ClassResponseDto {
@@ -231,62 +227,6 @@ export class ClassesService {
     }
 
     await this.classRepository.remove(classEntity);
-  }
-
-  async enrollStudent(
-    classId: string,
-    data: EnrollStudentDto,
-  ): Promise<EnrollmentResponseDto> {
-    const classEntity = await this.classRepository.findOne({
-      where: { id: classId },
-      relations: ['course'],
-    });
-
-    if (!classEntity) {
-      throw new NotFoundException('Turma não encontrada');
-    }
-
-    if (classEntity.active !== Status.ACTIVE) {
-      throw new BadRequestException(
-        'Não é possível matricular alunos em uma turma inativa',
-      );
-    }
-
-    const user = await this.userRepository.findOne({
-      where: { id: data.userId },
-    });
-
-    if (!user) {
-      throw new NotFoundException('Aluno não encontrado');
-    }
-
-    const hasProfileAluno = user.profiles.some(
-      (profile) => profile.name === 'ALUNO',
-    );
-
-    if (!hasProfileAluno) {
-      throw new ConflictException('O usuário não possui perfil de aluno');
-    }
-
-    const existingEnrollment = await this.enrollmentRepository.findOne({
-      where: {
-        user: { id: data.userId },
-        class: { id: classId },
-      },
-    });
-
-    if (existingEnrollment) {
-      throw new ConflictException('Aluno já está matriculado nesta turma');
-    }
-
-    const enrollment = this.enrollmentRepository.create({
-      user,
-      class: classEntity,
-      status: Status.ACTIVE,
-    });
-
-    const saved = await this.enrollmentRepository.save(enrollment);
-    return this.enrollmentToResponse(saved);
   }
 
   async findEnrollmentsByClass(
