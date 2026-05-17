@@ -145,12 +145,14 @@ export class SurveysService {
       throw new BadRequestException('Campus nao encontrado');
     }
 
-    const course = await this.courseRepository.findOneBy({
-      id: data.course_id,
-    });
+    if (data.course_id) {
+      const course = await this.courseRepository.findOneBy({
+        id: data.course_id,
+      });
 
-    if (!course) {
-      throw new BadRequestException('Curso nao encontrado');
+      if (!course) {
+        throw new BadRequestException('Curso nao encontrado');
+      }
     }
 
     const service = await this.serviceRepository.findOneBy({

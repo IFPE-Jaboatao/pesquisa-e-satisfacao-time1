@@ -1,6 +1,7 @@
 import {
   IsArray,
   IsBoolean,
+  IsNotEmpty,
   IsOptional,
   IsString,
   IsUUID,
@@ -11,8 +12,7 @@ import {
 import { Type } from 'class-transformer';
 
 import { SurveyQuestionDto } from './survey-question.dto';
-import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty } from 'class-validator';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class CreateSurveyDto {
   @ApiProperty()
@@ -29,10 +29,10 @@ export class CreateSurveyDto {
   @IsNotEmpty()
   campus_id!: string;
 
-  @ApiProperty()
+  @ApiPropertyOptional()
+  @IsOptional()
   @IsUUID()
-  @IsNotEmpty()
-  course_id!: string;
+  course_id?: string;
 
   @ApiProperty()
   @IsUUID()
