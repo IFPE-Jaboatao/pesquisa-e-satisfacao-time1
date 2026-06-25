@@ -7,7 +7,7 @@ export default function LoginPage() {
   const [lembrar, setLembrar] = useState(false);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-emerald-500 hover:bg-emerald-600px-4">
       <div className="w-full max-w-sm bg-white rounded-xl shadow-md p-8">
         <h1 className="text-center text-lg font-bold text-gray-800 mb-6">
           SPS – Sistema de Pesquisa e Satisfação
